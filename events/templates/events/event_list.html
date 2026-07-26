@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>EventHub | الفعاليات</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:
+                "Segoe UI",
+                Tahoma,
+                Arial,
+                sans-serif;
+
+            background: #080b16;
+
+            color: white;
+
+            min-height: 100vh;
+        }
+
+        nav {
+            height: 78px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 8%;
+
+            background:
+                rgba(8,11,22,.85);
+
+            backdrop-filter: blur(18px);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.07);
+        }
+
+        .logo {
+            text-decoration: none;
+
+            color: white;
+
+            font-size: 28px;
+
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #8b7cff;
+        }
+
+        .nav-links {
+            display: flex;
+
+            gap: 25px;
+
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #aab1c2;
+
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-button {
+            background: #7567f8;
+
+            color: white !important;
+
+            padding: 11px 22px;
+
+            border-radius: 30px;
+        }
+
+        .header {
+            text-align: center;
+
+            padding: 80px 20px 45px;
+        }
+
+        .badge {
+            display: inline-block;
+
+            padding: 8px 17px;
+
+            margin-bottom: 20px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(117,103,248,.12);
+
+            border:
+                1px solid
+                rgba(117,103,248,.25);
+
+            color: #aaa2ff;
+        }
+
+        .header h1 {
+            font-size:
+                clamp(40px,5vw,65px);
+
+            margin-bottom: 15px;
+        }
+
+        .header h1 span {
+            color: #897eff;
+        }
+
+        .header p {
+            color: #8f97aa;
+
+            line-height: 1.8;
+        }
+
+        .tools {
+            width: 84%;
+
+            max-width: 1100px;
+
+            margin: 0 auto 45px;
+
+            display: flex;
+
+            gap: 15px;
+        }
+
+        .search {
+            flex: 1;
+
+            padding: 16px;
+
+            border-radius: 13px;
+
+            background: #101522;
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        .search:focus {
+            border-color: #7567f8;
+        }
+
+        .filter {
+            padding: 16px 20px;
+
+            border-radius: 13px;
+
+            background: #101522;
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            color: #c0c5d0;
+
+            outline: none;
+        }
+
+        .filter option {
+            background: #101522;
+        }
+
+        .container {
+            width: 84%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding-bottom: 90px;
+        }
+
+        .count {
+            color: #858da1;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+        .events {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap: 25px;
+        }
+
+        .card {
+            background: #101522;
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform:
+                translateY(-8px);
+
+            border-color:
+                rgba(117,103,248,.35);
+
+            box-shadow:
+                0 25px 50px
+                rgba(0,0,0,.3);
+        }
+
+        .cover {
+            height: 190px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 65px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #37317d,
+                    #174d67
+                );
+        }
+
+        .card:nth-child(2) .cover {
+            background:
+                linear-gradient(
+                    135deg,
+                    #4b2569,
+                    #172e58
+                );
+        }
+
+        .card:nth-child(3) .cover {
+            background:
+                linear-gradient(
+                    135deg,
+                    #155d64,
+                    #1a2c59
+                );
+        }
+
+        .card:nth-child(4) .cover {
+            background:
+                linear-gradient(
+                    135deg,
+                    #5b3c1d,
+                    #38224d
+                );
+        }
+
+        .card:nth-child(5) .cover {
+            background:
+                linear-gradient(
+                    135deg,
+                    #263e76,
+                    #183d3c
+                );
+        }
+
+        .card:nth-child(6) .cover {
+            background:
+                linear-gradient(
+                    135deg,
+                    #49275c,
+                    #243b69
+                );
+        }
+
+        .content {
+            padding: 24px;
+        }
+
+        .category {
+            color: #9d94ff;
+
+            font-size: 12px;
+
+            margin-bottom: 10px;
+        }
+
+        .content h2 {
+            font-size: 20px;
+
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #858da1;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+
+            margin-bottom: 18px;
+        }
+
+        .info {
+            border-top:
+                1px solid
+                rgba(255,255,255,.07);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.07);
+
+            padding: 14px 0;
+
+            display: grid;
+
+            gap: 8px;
+
+            color: #aab1c0;
+
+            font-size: 13px;
+        }
+
+        .card-footer {
+            margin-top: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+        .price {
+            color: #c9ced9;
+
+            font-size: 13px;
+        }
+
+        .details-btn {
+            border: none;
+
+            background: #7567f8;
+
+            color: white;
+
+            padding: 10px 16px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            transition: .3s;
+        }
+
+        .details-btn:hover {
+            background: #897eff;
+        }
+
+        /* MODAL */
+
+        .modal {
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(0,0,0,.75);
+
+            backdrop-filter: blur(8px);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 5000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+
+            max-width: 600px;
+
+            background: #101522;
+
+            border:
+                1px solid
+                rgba(255,255,255,.1);
+
+            border-radius: 22px;
+
+            overflow: hidden;
+        }
+
+        .modal-cover {
+            height: 190px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 70px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #37317d,
+                    #174d67
+                );
+        }
+
+        .modal-content {
+            padding: 28px;
+        }
+
+        .modal-category {
+            color: #9d94ff;
+
+            margin-bottom: 10px;
+        }
+
+        .modal-content h2 {
+            font-size: 28px;
+
+            margin-bottom: 15px;
+        }
+
+        .modal-description {
+            color: #9ba3b5;
+
+            line-height: 1.9;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-info {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+        }
+
+        .modal-info div {
+            padding: 15px;
+
+            background: #0b0f1c;
+
+            border-radius: 12px;
+
+            color: #adb4c3;
+
+            font-size: 13px;
+        }
+
+        .modal-buttons {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 22px;
+        }
+
+        .register {
+            flex: 1;
+
+            border: none;
+
+            background: #7567f8;
+
+            color: white;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+        }
+
+        .close {
+            width: 100px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.1);
+
+            background: transparent;
+
+            color: #adb4c3;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+        }
+
+        .empty {
+            display: none;
+
+            text-align: center;
+
+            color: #858da1;
+
+            padding: 70px 20px;
+        }
+
+        footer {
+            text-align: center;
+
+            padding: 35px 20px;
+
+            background: #060811;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.07);
+
+            color: #6f7789;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        .developer {
+            display: block;
+
+            margin-top: 10px;
+
+            color: #9d94ff;
+        }
+
+        @media(max-width:900px) {
+
+            .events {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+        @media(max-width:650px) {
+
+            .nav-links a:not(.nav-button) {
+                display: none;
+            }
+
+            .tools {
+                flex-direction: column;
+            }
+
+            .events {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-info {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <a href="/" class="logo">
+        Event<span>Hub</span>
+    </a>
+
+    <div class="nav-links">
+
+        <a href="/">
+            الرئيسية
+        </a>
+
+        <a
+            href="/events/"
+            class="nav-button"
+        >
+            الفعاليات
+        </a>
+
+    </div>
+
+</nav>
+
+
+<header class="header">
+
+    <div class="badge">
+        ✦ اكتشف ما يناسبك
+    </div>
+
+    <h1>
+        جميع
+        <span>الفعاليات</span>
+    </h1>
+
+    <p>
+        اكتشف الفعاليات والورش والملتقيات
+        واختر تجربتك القادمة.
+    </p>
+
+</header>
+
+
+<div class="tools">
+
+    <input
+        type="text"
+        id="search"
+        class="search"
+        placeholder="🔍 ابحث عن فعالية..."
+    >
+
+    <select
+        id="filter"
+        class="filter"
+    >
+
+        <option value="all">
+            جميع التصنيفات
+        </option>
+
+        <option value="tech">
+            تقنية
+        </option>
+
+        <option value="education">
+            تعليم
+        </option>
+
+        <option value="business">
+            أعمال
+        </option>
+
+        <option value="innovation">
+            ابتكار
+        </option>
+
+    </select>
+
+</div>
+
+
+<main class="container">
+
+    <div class="count">
+
+        عدد الفعاليات:
+        <strong id="count">
+            6
+        </strong>
+
+    </div>
+
+
+    <div
+        class="events"
+        id="events"
+    >
+
+
+        <article
+            class="card"
+            data-category="education"
+            data-title="ورشة تطوير المهارات"
+        >
+
+            <div class="cover">
+                🎓
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    تعليم وتطوير
+                </div>
+
+                <h2>
+                    ورشة تطوير المهارات
+                </h2>
+
+                <p class="description">
+                    ورشة عملية لتطوير المهارات
+                    واكتساب خبرات جديدة.
+                </p>
+
+                <div class="info">
+
+                    <span>
+                        📅 15 أغسطس 2026
+                    </span>
+
+                    <span>
+                        📍 صنعاء
+                    </span>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <span class="price">
+                        دخول مجاني
+                    </span>
+
+                    <button
+                        class="details-btn"
+                        onclick="openEvent(
+                            'ورشة تطوير المهارات',
+                            '🎓',
+                            'تعليم وتطوير',
+                            'ورشة عملية لتطوير المهارات واكتساب خبرات جديدة.',
+                            '15 أغسطس 2026',
+                            'صنعاء'
+                        )"
+                    >
+                        التفاصيل
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="card"
+            data-category="tech"
+            data-title="ملتقى التقنية"
+        >
+
+            <div class="cover">
+                💻
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    تقنية
+                </div>
+
+                <h2>
+                    ملتقى التقنية
+                </h2>
+
+                <p class="description">
+                    لقاء يجمع المهتمين بالتقنية
+                    والبرمجة.
+                </p>
+
+                <div class="info">
+
+                    <span>
+                        📅 20 أغسطس 2026
+                    </span>
+
+                    <span>
+                        📍 صنعاء
+                    </span>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <span class="price">
+                        دخول مجاني
+                    </span>
+
+                    <button
+                        class="details-btn"
+                        onclick="openEvent(
+                            'ملتقى التقنية',
+                            '💻',
+                            'تقنية',
+                            'لقاء يجمع المهتمين بالتقنية والبرمجة لمشاركة الأفكار والخبرات.',
+                            '20 أغسطس 2026',
+                            'صنعاء'
+                        )"
+                    >
+                        التفاصيل
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="card"
+            data-category="innovation"
+            data-title="معرض المشاريع"
+        >
+
+            <div class="cover">
+                🚀
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    مشاريع وابتكار
+                </div>
+
+                <h2>
+                    معرض المشاريع
+                </h2>
+
+                <p class="description">
+                    مساحة لاستعراض المشاريع
+                    والأفكار التقنية.
+                </p>
+
+                <div class="info">
+
+                    <span>
+                        📅 28 أغسطس 2026
+                    </span>
+
+                    <span>
+                        📍 صنعاء
+                    </span>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <span class="price">
+                        دخول مجاني
+                    </span>
+
+                    <button
+                        class="details-btn"
+                        onclick="openEvent(
+                            'معرض المشاريع',
+                            '🚀',
+                            'مشاريع وابتكار',
+                            'معرض لاستعراض المشاريع والأفكار التقنية المبتكرة.',
+                            '28 أغسطس 2026',
+                            'صنعاء'
+                        )"
+                    >
+                        التفاصيل
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="card"
+            data-category="business"
+            data-title="ملتقى ريادة الأعمال"
+        >
+
+            <div class="cover">
+                💼
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    أعمال وريادة
+                </div>
+
+                <h2>
+                    ملتقى ريادة الأعمال
+                </h2>
+
+                <p class="description">
+                    لقاء للتعرف على عالم
+                    ريادة الأعمال.
+                </p>
+
+                <div class="info">
+
+                    <span>
+                        📅 3 سبتمبر 2026
+                    </span>
+
+                    <span>
+                        📍 صنعاء
+                    </span>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <span class="price">
+                        دخول مجاني
+                    </span>
+
+                    <button
+                        class="details-btn"
+                        onclick="openEvent(
+                            'ملتقى ريادة الأعمال',
+                            '💼',
+                            'أعمال وريادة',
+                            'ملتقى يركز على ريادة الأعمال وتطوير الأفكار وتحويلها إلى مشاريع.',
+                            '3 سبتمبر 2026',
+                            'صنعاء'
+                        )"
+                    >
+                        التفاصيل
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="card"
+            data-category="tech"
+            data-title="معسكر البرمجة"
+        >
+
+            <div class="cover">
+                👩‍💻
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    برمجة وتقنية
+                </div>
+
+                <h2>
+                    معسكر البرمجة
+                </h2>
+
+                <p class="description">
+                    تجربة عملية للتعرف على
+                    أساسيات البرمجة.
+                </p>
+
+                <div class="info">
+
+                    <span>
+                        📅 10 سبتمبر 2026
+                    </span>
+
+                    <span>
+                        📍 صنعاء
+                    </span>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <span class="price">
+                        التسجيل مفتوح
+                    </span>
+
+                    <button
+                        class="details-btn"
+                        onclick="openEvent(
+                            'معسكر البرمجة',
+                            '👩‍💻',
+                            'برمجة وتقنية',
+                            'معسكر تدريبي عملي للتعرف على أساسيات البرمجة وتطوير التطبيقات.',
+                            '10 سبتمبر 2026',
+                            'صنعاء'
+                        )"
+                    >
+                        التفاصيل
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="card"
+            data-category="innovation"
+            data-title="مختبر الابتكار"
+        >
+
+            <div class="cover">
+                💡
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    ابتكار وأفكار
+                </div>
+
+                <h2>
+                    مختبر الابتكار
+                </h2>
+
+                <p class="description">
+                    مساحة للعصف الذهني وتطوير
+                    الأفكار الجديدة.
+                </p>
+
+                <div class="info">
+
+                    <span>
+                        📅 18 سبتمبر 2026
+                    </span>
+
+                    <span>
+                        📍 صنعاء
+                    </span>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <span class="price">
+                        التسجيل مفتوح
+                    </span>
+
+                    <button
+                        class="details-btn"
+                        onclick="openEvent(
+                            'مختبر الابتكار',
+                            '💡',
+                            'ابتكار وأفكار',
+                            'تجربة تفاعلية تهدف إلى توليد الأفكار الجديدة وتطويرها.',
+                            '18 سبتمبر 2026',
+                            'صنعاء'
+                        )"
+                    >
+                        التفاصيل
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+
+    <div
+        class="empty"
+        id="empty"
+    >
+
+        <div style="font-size:50px;">
+            🔎
+        </div>
+
+        <h3>
+            لا توجد نتائج
+        </h3>
+
+        <p>
+            جربي البحث بكلمة أخرى.
+        </p>
+
+    </div>
+
+</main>
+
+
+<!-- MODAL -->
+
+<div
+    class="modal"
+    id="modal"
+>
+
+    <div class="modal-box">
+
+        <div
+            class="modal-cover"
+            id="modalIcon"
+        >
+            🎓
+        </div>
+
+        <div class="modal-content">
+
+            <div
+                class="modal-category"
+                id="modalCategory"
+            >
+                تعليم
+            </div>
+
+            <h2 id="modalTitle">
+                الفعالية
+            </h2>
+
+            <p
+                class="modal-description"
+                id="modalDescription"
+            >
+            </p>
+
+            <div class="modal-info">
+
+                <div>
+                    📅
+                    <br>
+                    <span id="modalDate"></span>
+                </div>
+
+                <div>
+                    📍
+                    <br>
+                    <span id="modalLocation"></span>
+                </div>
+
+            </div>
+
+            <div class="modal-buttons">
+
+                <button
+                    class="register"
+                    onclick="registerEvent()"
+                >
+                    التسجيل في الفعالية
+                </button>
+
+                <button
+                    class="close"
+                    onclick="closeModal()"
+                >
+                    إغلاق
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    © 2026
+
+    <strong>
+        EventHub
+    </strong>
+
+    — منصة اكتشاف الفعاليات
+
+    <span class="developer">
+        تصميم وتطوير المهندسة حسناء
+    </span>
+
+</footer>
+
+
+<script>
+
+    const search =
+        document.getElementById("search");
+
+    const filter =
+        document.getElementById("filter");
+
+    const cards =
+        document.querySelectorAll(".card");
+
+    const count =
+        document.getElementById("count");
+
+    const empty =
+        document.getElementById("empty");
+
+
+    function filterEvents() {
+
+        const text =
+            search.value
+            .toLowerCase()
+            .trim();
+
+        const category =
+            filter.value;
+
+        let visible = 0;
+
+
+        cards.forEach(card => {
+
+            const title =
+                card.dataset.title
+                .toLowerCase();
+
+            const cardCategory =
+                card.dataset.category;
+
+
+            const matchText =
+                title.includes(text);
+
+            const matchCategory =
+                category === "all" ||
+                category === cardCategory;
+
+
+            if (
+                matchText &&
+                matchCategory
+            ) {
+
+                card.style.display =
+                    "block";
+
+                visible++;
+
+            } else {
+
+                card.style.display =
+                    "none";
+
+            }
+
+        });
+
+
+        count.innerText =
+            visible;
+
+
+        empty.style.display =
+            visible === 0
+                ? "block"
+                : "none";
+
+    }
+
+
+    search.addEventListener(
+        "input",
+        filterEvents
+    );
+
+
+    filter.addEventListener(
+        "change",
+        filterEvents
+    );
+
+
+    function openEvent(
+        title,
+        icon,
+        category,
+        description,
+        date,
+        location
+    ) {
+
+        document.getElementById(
+            "modalTitle"
+        ).innerText = title;
+
+        document.getElementById(
+            "modalIcon"
+        ).innerText = icon;
+
+        document.getElementById(
+            "modalCategory"
+        ).innerText = category;
+
+        document.getElementById(
+            "modalDescription"
+        ).innerText = description;
+
+        document.getElementById(
+            "modalDate"
+        ).innerText = date;
+
+        document.getElementById(
+            "modalLocation"
+        ).innerText = location;
+
+
+        document.getElementById(
+            "modal"
+        ).classList.add("show");
+
+
+        document.body.style.overflow =
+            "hidden";
+    }
+
+
+    function closeModal() {
+
+        document.getElementById(
+            "modal"
+        ).classList.remove("show");
+
+
+        document.body.style.overflow =
+            "";
+    }
+
+
+    function registerEvent() {
+
+        alert(
+            "تم اختيار التسجيل في الفعالية."
+        );
+
+    }
+
+
+    document.getElementById(
+        "modal"
+    ).addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
