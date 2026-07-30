@@ -2,2128 +2,599 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>EventHub | الفعاليات</title>
-
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventHub | المنصة الرائدة للفعاليات</title>
     <style>
-
-        /* =========================
-           GENERAL
-        ========================= */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #6366f1;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            --bg: #090d16;
+            --surface: rgba(30, 41, 59, 0.7);
+            --surface-solid: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --glow: rgba(99, 102, 241, 0.15);
         }
 
-        html {
-            scroll-behavior: smooth;
+        body.light-mode {
+            --bg: #f1f5f9;
+            --surface: rgba(255, 255, 255, 0.85);
+            --surface-solid: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: rgba(0, 0, 0, 0.08);
+            --glow: rgba(99, 102, 241, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
         }
 
         body {
-            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-
-            background:
-                radial-gradient(
-                    circle at 80% 10%,
-                    rgba(117,103,248,.15),
-                    transparent 28%
-                ),
-                #080b16;
-
-            color: white;
-
-            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+            position: relative;
         }
 
-
-        /* =========================
-           NAVBAR
-        ========================= */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: var(--primary-gradient);
+            filter: blur(140px);
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
 
         nav {
-
-            height: 78px;
-
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 8%;
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-
-            z-index: 1000;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 8%;
-
-            background:
-                rgba(8,11,22,.82);
-
-            backdrop-filter: blur(18px);
-
-            border-bottom:
-                1px solid rgba(255,255,255,.07);
+            z-index: 100;
         }
 
-
-        .logo {
-
-            text-decoration: none;
-
-            color: white;
-
-            font-size: 28px;
-
+        nav a.logo {
+            font-size: 1.6rem;
             font-weight: 800;
-        }
-
-
-        .logo span {
-
-            color: #8b7cff;
-        }
-
-
-        .nav-links {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 30px;
-        }
-
-
-        .nav-links a {
-
+            color: var(--text);
             text-decoration: none;
-
-            color: #aab1c2;
-
-            font-size: 15px;
-
-            transition: .3s;
+            letter-spacing: -0.5px;
         }
 
-
-        .nav-links a:hover {
-
-            color: white;
+        nav a.logo span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-
-        .nav-active {
-
-            color: white !important;
-        }
-
-
-        .nav-button {
-
-            background: #7567f8;
-
-            color: white !important;
-
-            padding: 11px 22px;
-
-            border-radius: 30px;
-
-            box-shadow:
-                0 10px 30px
-                rgba(117,103,248,.25);
-        }
-
-
-        /* =========================
-           PAGE HEADER
-        ========================= */
-
-        .page-header {
-
-            text-align: center;
-
-            padding:
-                90px 20px 55px;
-
-            position: relative;
-        }
-
-
-        .page-badge {
-
-            display: inline-block;
-
-            padding: 8px 17px;
-
-            margin-bottom: 20px;
-
-            border-radius: 30px;
-
-            background:
-                rgba(117,103,248,.12);
-
-            border:
-                1px solid
-                rgba(117,103,248,.25);
-
-            color: #aaa2ff;
-
-            font-size: 14px;
-        }
-
-
-        .page-header h1 {
-
-            font-size:
-                clamp(40px, 5vw, 65px);
-
-            margin-bottom: 15px;
-
-            letter-spacing: -2px;
-        }
-
-
-        .page-header h1 span {
-
-            color: #897eff;
-        }
-
-
-        .page-header p {
-
-            color: #8f97aa;
-
-            font-size: 17px;
-
-            line-height: 1.8;
-        }
-
-
-        /* =========================
-           SEARCH AREA
-        ========================= */
-
-        .tools {
-
-            width: 84%;
-
-            max-width: 1100px;
-
-            margin: 0 auto 50px;
-
+        nav ul {
             display: flex;
-
-            gap: 15px;
-
+            list-style: none;
+            gap: 25px;
             align-items: center;
         }
 
-
-        .search-box {
-
-            flex: 1;
-
-            position: relative;
+        nav ul a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
         }
 
-
-        .search-box input {
-
-            width: 100%;
-
-            padding:
-                16px 50px 16px 18px;
-
-            background: #101522;
-
-            border:
-                1px solid
-                rgba(255,255,255,.09);
-
-            border-radius: 13px;
-
-            color: white;
-
-            outline: none;
-
-            font-size: 15px;
-
-            transition: .3s;
+        nav ul a:hover, nav ul a.active {
+            color: var(--primary);
         }
 
-
-        .search-box input:focus {
-
-            border-color:
-                rgba(117,103,248,.65);
-
-            box-shadow:
-                0 0 0 4px
-                rgba(117,103,248,.08);
-        }
-
-
-        .search-icon {
-
-            position: absolute;
-
-            right: 17px;
-
-            top: 50%;
-
-            transform:
-                translateY(-50%);
-
-            color: #8f97aa;
-
-            font-size: 18px;
-        }
-
-
-        .filter {
-
-            padding:
-                16px 20px;
-
-            border:
-                1px solid
-                rgba(255,255,255,.09);
-
-            border-radius: 13px;
-
-            background: #101522;
-
-            color: #b9c0ce;
-
-            outline: none;
-
+        .btn-theme {
+            background: var(--surface-solid);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
-
-            font-size: 14px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
 
+        .btn-theme:hover {
+            border-color: var(--primary);
+        }
 
-        .filter option {
+        .hero-section {
+            text-align: center;
+            padding: 90px 20px 50px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-            background: #101522;
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glow);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+        }
 
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .hero-section h1 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .btn {
+            background: var(--primary-gradient);
             color: white;
+            padding: 14px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+        }
 
-        /* =========================
-           EVENTS CONTAINER
-        ========================= */
+        .btn-outline {
+            background: var(--surface-solid);
+            border: 1px solid var(--border);
+            color: var(--text);
+            box-shadow: none;
+        }
 
-        .container {
+        .btn-outline:hover {
+            background: var(--glow);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
 
-            width: 84%;
-
+        .features-grid {
             max-width: 1100px;
-
-            margin: auto;
-
-            padding-bottom: 100px;
-        }
-
-
-        .events-count {
-
-            color: #858da1;
-
-            font-size: 14px;
-
-            margin-bottom: 22px;
-        }
-
-
-        .events {
-
+            margin: 0 auto 60px;
+            padding: 0 20px;
             display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
 
-
-        /* =========================
-           EVENT CARD
-        ========================= */
-
-        .card {
-
-            background: #101522;
-
-            border:
-                1px solid
-                rgba(255,255,255,.07);
-
-            border-radius: 22px;
-
-            overflow: hidden;
-
-            transition:
-                transform .35s,
-                box-shadow .35s,
-                border-color .35s;
-
-            position: relative;
+        .feature-card {
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 16px;
+            transition: transform 0.3s, border-color 0.3s;
         }
 
-
-        .card:hover {
-
-            transform:
-                translateY(-9px);
-
-            border-color:
-                rgba(117,103,248,.35);
-
-            box-shadow:
-                0 25px 60px
-                rgba(0,0,0,.3);
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
         }
 
-
-        .card-cover {
-
-            height: 210px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 70px;
-
-            position: relative;
-
-            overflow: hidden;
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
         }
 
-
-        .card-cover::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 180px;
-
-            height: 180px;
-
-            border-radius: 50%;
-
-            border:
-                1px solid
-                rgba(255,255,255,.12);
-
-            right: -45px;
-
-            bottom: -70px;
-        }
-
-
-        .card:nth-child(1)
-        .card-cover {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #37317d,
-                    #174d67
-                );
-        }
-
-
-        .card:nth-child(2)
-        .card-cover {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #4b2569,
-                    #172e58
-                );
-        }
-
-
-        .card:nth-child(3)
-        .card-cover {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #155d64,
-                    #1a2c59
-                );
-        }
-
-
-        .card:nth-child(4)
-        .card-cover {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #5b3c1d,
-                    #38224d
-                );
-        }
-
-
-        .card:nth-child(5)
-        .card-cover {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #263e76,
-                    #183d3c
-                );
-        }
-
-
-        .card:nth-child(6)
-        .card-cover {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #49275c,
-                    #243b69
-                );
-        }
-
-
-        .featured {
-
-            position: absolute;
-
-            top: 15px;
-
-            right: 15px;
-
-            z-index: 2;
-
-            background:
-                rgba(255,255,255,.13);
-
-            backdrop-filter:
-                blur(10px);
-
-            color: white;
-
-            padding:
-                7px 11px;
-
-            border-radius: 8px;
-
-            font-size: 11px;
-        }
-
-
-        .card-content {
-
-            padding: 24px;
-        }
-
-
-        .category {
-
-            color: #9d94ff;
-
-            font-size: 12px;
-
+        .feature-card h3 {
+            font-size: 1.2rem;
             margin-bottom: 10px;
         }
 
-
-        .card h2 {
-
-            font-size: 21px;
-
-            margin-bottom: 11px;
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
+        .auth-wrapper {
+            max-width: 440px;
+            margin: 0 auto 70px;
+            padding: 0 20px;
+        }
 
-        .description {
+        .auth-container {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
 
-            color: #858da1;
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+        }
 
-            font-size: 14px;
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
 
-            line-height: 1.8;
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-            min-height: 50px;
+        .form-group label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
 
+        .form-group input {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 13px 16px;
+            border-radius: 10px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--glow);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+            transition: opacity 0.2s;
+        }
+
+        .btn-submit:hover { opacity: 0.9; }
+
+        .showcase-section {
+            max-width: 1100px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .showcase-card {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .showcase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .showcase-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .showcase-card:hover::before {
+            opacity: 1;
+        }
+
+        .showcase-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 18px;
         }
 
-
-        .details {
-
-            display: grid;
-
-            gap: 9px;
-
-            padding:
-                15px 0;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,.07);
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,.07);
+        .showcase-icon {
+            font-size: 2.5rem;
         }
 
-
-        .detail {
-
-            color: #aab1c0;
-
-            font-size: 13px;
+        .showcase-tag {
+            background: var(--glow);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
+        .showcase-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
 
-        .card-footer {
+        .showcase-card p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
 
+        .showcase-footer {
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
-            margin-top: 18px;
-
-            gap: 10px;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
-
-        .price {
-
-            color: #d7dbe5;
-
-            font-size: 13px;
-        }
-
-
-        .details-button {
-
-            border: none;
-
-            background: #7567f8;
-
-            color: white;
-
-            padding:
-                11px 17px;
-
-            border-radius: 10px;
-
-            cursor: pointer;
-
-            font-size: 13px;
-
-            transition: .3s;
-        }
-
-
-        .details-button:hover {
-
-            background: #897eff;
-
-            transform:
-                translateY(-2px);
-        }
-
-
-        /* =========================
-           MODAL
-        ========================= */
-
-        .modal {
-
-            position: fixed;
-
-            inset: 0;
-
-            background:
-                rgba(2,5,15,.78);
-
-            backdrop-filter:
-                blur(10px);
-
-            display: none;
-
-            align-items: center;
-
-            justify-content: center;
-
-            padding: 20px;
-
-            z-index: 5000;
-        }
-
-
-        .modal.active {
-
-            display: flex;
-
-            animation:
-                fadeIn .25s ease;
-        }
-
-
-        .modal-box {
-
-            width: 100%;
-
-            max-width: 650px;
-
-            background: #101522;
-
-            border:
-                1px solid
-                rgba(255,255,255,.1);
-
-            border-radius: 25px;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 40px 100px
-                rgba(0,0,0,.5);
-
-            animation:
-                modalUp .3s ease;
-        }
-
-
-        .modal-cover {
-
-            height: 210px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 80px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #37317d,
-                    #174d67
-                );
-        }
-
-
-        .modal-content {
-
-            padding: 30px;
-        }
-
-
-        .modal-category {
-
-            color: #9d94ff;
-
-            font-size: 13px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .modal-content h2 {
-
-            font-size: 29px;
-
-            margin-bottom: 15px;
-        }
-
-
-        .modal-description {
-
-            color: #9ba3b5;
-
-            line-height: 1.9;
-
-            margin-bottom: 22px;
-        }
-
-
-        .modal-details {
-
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 12px;
-        }
-
-
-        .modal-detail {
-
-            background: #0b0f1c;
-
-            border:
-                1px solid
-                rgba(255,255,255,.06);
-
-            border-radius: 12px;
-
-            padding: 15px;
-
-            color: #adb4c3;
-
-            font-size: 13px;
-        }
-
-
-        .modal-actions {
-
-            display: flex;
-
-            gap: 10px;
-
-            margin-top: 22px;
-        }
-
-
-        .register {
-
-            flex: 1;
-
-            border: none;
-
-            background: #7567f8;
-
-            color: white;
-
-            padding: 14px;
-
-            border-radius: 11px;
-
-            cursor: pointer;
-
-            font-weight: 600;
-
-            transition: .3s;
-        }
-
-
-        .register:hover {
-
-            background: #897eff;
-        }
-
-
-        .close-modal {
-
-            flex: 0 0 100px;
-
-            border:
-                1px solid
-                rgba(255,255,255,.1);
-
-            background: transparent;
-
-            color: #aeb5c5;
-
-            border-radius: 11px;
-
-            cursor: pointer;
-
-            transition: .3s;
-        }
-
-
-        .close-modal:hover {
-
-            background:
-                rgba(255,255,255,.06);
-
-            color: white;
-        }
-
-
-        /* =========================
-           EMPTY RESULT
-        ========================= */
-
-        .empty {
-
-            display: none;
-
-            text-align: center;
-
-            padding: 70px 20px;
-
-            color: #858da1;
-        }
-
-
-        .empty-icon {
-
-            font-size: 55px;
-
-            margin-bottom: 15px;
-        }
-
-
-        /* =========================
-           FOOTER
-        ========================= */
-
+        /* تنسيق الفوتر الفخم */
         footer {
-
-            background: #060811;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,.07);
-
+            background: var(--surface);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid var(--border);
+            padding: 40px 20px;
             text-align: center;
-
-            padding: 35px 20px;
-
-            color: #6f7789;
-
-            font-size: 14px;
         }
 
-
-        footer strong {
-
-            color: white;
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
         }
 
-
-        .developer {
-
-            display: block;
-
-            margin-top: 10px;
-
-            color: #9d94ff;
-
-            font-weight: 600;
+        .footer-logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
-
-        /* =========================
-           ANIMATIONS
-        ========================= */
-
-        @keyframes fadeIn {
-
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-
+        .footer-logo span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-
-        @keyframes modalUp {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(30px)
-                    scale(.97);
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0)
-                    scale(1);
-            }
-
+        .developer-credit {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-
-        /* =========================
-           RESPONSIVE
-        ========================= */
-
-        @media(max-width: 1000px) {
-
-            .events {
-
-                grid-template-columns:
-                    1fr 1fr;
-            }
-
+        .developer-credit span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
 
-
-        @media(max-width: 700px) {
-
-            nav {
-
-                padding: 0 5%;
-            }
-
-
-            .nav-links a:not(.nav-button) {
-
-                display: none;
-            }
-
-
-            .tools {
-
-                width: 90%;
-
-                flex-direction: column;
-            }
-
-
-            .search-box {
-
-                width: 100%;
-            }
-
-
-            .filter {
-
-                width: 100%;
-            }
-
-
-            .container {
-
-                width: 90%;
-            }
-
-
-            .events {
-
-                grid-template-columns: 1fr;
-            }
-
-
-            .modal-details {
-
-                grid-template-columns: 1fr;
-            }
-
+        .copyright-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            opacity: 0.8;
         }
-
-
-        @media(max-width: 450px) {
-
-            .page-header {
-
-                padding-top: 65px;
-            }
-
-
-            .page-header h1 {
-
-                font-size: 40px;
-            }
-
-
-            .modal-content {
-
-                padding: 22px;
-            }
-
-
-            .modal-content h2 {
-
-                font-size: 24px;
-            }
-
-        }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =========================
-     NAVBAR
-========================= -->
-
-<nav>
-
-    <a href="/" class="logo">
-        Event<span>Hub</span>
-    </a>
-
-
-    <div class="nav-links">
-
-        <a href="/">
-            الرئيسية
-        </a>
-
-
-        <a
-            href="/events/"
-            class="nav-active"
-        >
-            الفعاليات
-        </a>
-
-
-        <a
-            href="/"
-            class="nav-button"
-        >
-            العودة للرئيسية
-        </a>
-
-    </div>
-
-</nav>
-
-
-<!-- =========================
-     HEADER
-========================= -->
-
-<header class="page-header">
-
-    <div class="page-badge">
-        ✦ اكتشف ما يناسبك
-    </div>
-
-
-    <h1>
-
-        جميع
-        <span>الفعاليات</span>
-
-    </h1>
-
-
-    <p>
-
-        اكتشف مجموعة من الفعاليات والورش
-        والملتقيات واختر تجربتك القادمة.
-
-    </p>
-
-</header>
-
-
-<!-- =========================
-     SEARCH
-========================= -->
-
-<div class="tools">
-
-
-    <div class="search-box">
-
-        <span class="search-icon">
-            🔍
-        </span>
-
-
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="ابحث عن فعالية..."
-        >
-
-    </div>
-
-
-    <select
-        class="filter"
-        id="categoryFilter"
-    >
-
-        <option value="all">
-            جميع التصنيفات
-        </option>
-
-        <option value="tech">
-            تقنية
-        </option>
-
-        <option value="education">
-            تعليم
-        </option>
-
-        <option value="business">
-            أعمال
-        </option>
-
-        <option value="innovation">
-            ابتكار
-        </option>
-
-    </select>
-
-</div>
-
-
-<!-- =========================
-     EVENTS
-========================= -->
-
-<main class="container">
-
-
-    <div class="events-count">
-
-        الفعاليات المتاحة:
-        <strong id="eventsCount">
-            6
-        </strong>
-
-    </div>
-
-
-    <div
-        class="events"
-        id="eventsContainer"
-    >
-
-
-        <!-- EVENT 1 -->
-
-        <article
-            class="card"
-            data-category="education"
-            data-title="ورشة تطوير المهارات"
-        >
-
-            <div class="card-cover">
-
-                <span class="featured">
-                    مميزة
-                </span>
-
-                🎓
-
-            </div>
-
-
-            <div class="card-content">
-
-                <div class="category">
-                    تعليم وتطوير
-                </div>
-
-
-                <h2>
-                    ورشة تطوير المهارات
-                </h2>
-
-
-                <p class="description">
-
-                    ورشة عملية تساعدك على
-                    تطوير مهاراتك واكتساب
-                    خبرات جديدة.
-
-                </p>
-
-
-                <div class="details">
-
-                    <div class="detail">
-                        📅 15 أغسطس 2026
-                    </div>
-
-                    <div class="detail">
-                        📍 صنعاء
-                    </div>
-
-                </div>
-
-
-                <div class="card-footer">
-
-                    <span class="price">
-                        دخول مجاني
-                    </span>
-
-
-                    <button
-                        class="details-button"
-                        onclick="openModal(
-                            'ورشة تطوير المهارات',
-                            '🎓',
-                            'تعليم وتطوير',
-                            'ورشة عملية تساعد المشاركين على تطوير مهاراتهم التقنية والمهنية من خلال مجموعة من الأنشطة والتطبيقات العملية.',
-                            '15 أغسطس 2026',
-                            'صنعاء',
-                            'دخول مجاني'
-                        )"
-                    >
-                        عرض التفاصيل
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- EVENT 2 -->
-
-        <article
-            class="card"
-            data-category="tech"
-            data-title="ملتقى التقنية"
-        >
-
-            <div class="card-cover">
-                💻
-            </div>
-
-
-            <div class="card-content">
-
-                <div class="category">
-                    تقنية
-                </div>
-
-
-                <h2>
-                    ملتقى التقنية
-                </h2>
-
-
-                <p class="description">
-
-                    لقاء يجمع المهتمين بالتقنية
-                    والبرمجة لمشاركة الأفكار
-                    والخبرات.
-
-                </p>
-
-
-                <div class="details">
-
-                    <div class="detail">
-                        📅 20 أغسطس 2026
-                    </div>
-
-                    <div class="detail">
-                        📍 صنعاء
-                    </div>
-
-                </div>
-
-
-                <div class="card-footer">
-
-                    <span class="price">
-                        دخول مجاني
-                    </span>
-
-
-                    <button
-                        class="details-button"
-                        onclick="openModal(
-                            'ملتقى التقنية',
-                            '💻',
-                            'تقنية',
-                            'ملتقى يجمع المهتمين بالتقنية والبرمجة لمناقشة أحدث الأفكار والتقنيات وتبادل الخبرات بين المشاركين.',
-                            '20 أغسطس 2026',
-                            'صنعاء',
-                            'دخول مجاني'
-                        )"
-                    >
-                        عرض التفاصيل
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- EVENT 3 -->
-
-        <article
-            class="card"
-            data-category="innovation"
-            data-title="معرض المشاريع"
-        >
-
-            <div class="card-cover">
-
-                <span class="featured">
-                    جديد
-                </span>
-
-                🚀
-
-            </div>
-
-
-            <div class="card-content">
-
-                <div class="category">
-                    مشاريع وابتكار
-                </div>
-
-
-                <h2>
-                    معرض المشاريع
-                </h2>
-
-
-                <p class="description">
-
-                    مساحة لعرض المشاريع والأفكار
-                    التقنية المبتكرة.
-
-                </p>
-
-
-                <div class="details">
-
-                    <div class="detail">
-                        📅 28 أغسطس 2026
-                    </div>
-
-                    <div class="detail">
-                        📍 صنعاء
-                    </div>
-
-                </div>
-
-
-                <div class="card-footer">
-
-                    <span class="price">
-                        دخول مجاني
-                    </span>
-
-
-                    <button
-                        class="details-button"
-                        onclick="openModal(
-                            'معرض المشاريع',
-                            '🚀',
-                            'مشاريع وابتكار',
-                            'معرض مخصص لاستعراض المشاريع والأفكار التقنية المبتكرة والتعرف على تجارب أصحاب المشاريع.',
-                            '28 أغسطس 2026',
-                            'صنعاء',
-                            'دخول مجاني'
-                        )"
-                    >
-                        عرض التفاصيل
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- EVENT 4 -->
-
-        <article
-            class="card"
-            data-category="business"
-            data-title="ملتقى ريادة الأعمال"
-        >
-
-            <div class="card-cover">
-                💼
-            </div>
-
-
-            <div class="card-content">
-
-                <div class="category">
-                    أعمال وريادة
-                </div>
-
-
-                <h2>
-                    ملتقى ريادة الأعمال
-                </h2>
-
-
-                <p class="description">
-
-                    لقاء للتعرف على عالم ريادة
-                    الأعمال وبناء المشاريع.
-
-                </p>
-
-
-                <div class="details">
-
-                    <div class="detail">
-                        📅 3 سبتمبر 2026
-                    </div>
-
-                    <div class="detail">
-                        📍 صنعاء
-                    </div>
-
-                </div>
-
-
-                <div class="card-footer">
-
-                    <span class="price">
-                        دخول مجاني
-                    </span>
-
-
-                    <button
-                        class="details-button"
-                        onclick="openModal(
-                            'ملتقى ريادة الأعمال',
-                            '💼',
-                            'أعمال وريادة',
-                            'ملتقى يركز على ريادة الأعمال وتطوير الأفكار وتحويلها إلى مشاريع قابلة للتطبيق.',
-                            '3 سبتمبر 2026',
-                            'صنعاء',
-                            'دخول مجاني'
-                        )"
-                    >
-                        عرض التفاصيل
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- EVENT 5 -->
-
-        <article
-            class="card"
-            data-category="tech"
-            data-title="معسكر البرمجة"
-        >
-
-            <div class="card-cover">
-                👩‍💻
-            </div>
-
-
-            <div class="card-content">
-
-                <div class="category">
-                    برمجة وتقنية
-                </div>
-
-
-                <h2>
-                    معسكر البرمجة
-                </h2>
-
-
-                <p class="description">
-
-                    تجربة عملية للتعرف على
-                    أساسيات البرمجة وتطوير التطبيقات.
-
-                </p>
-
-
-                <div class="details">
-
-                    <div class="detail">
-                        📅 10 سبتمبر 2026
-                    </div>
-
-                    <div class="detail">
-                        📍 صنعاء
-                    </div>
-
-                </div>
-
-
-                <div class="card-footer">
-
-                    <span class="price">
-                        التسجيل مفتوح
-                    </span>
-
-
-                    <button
-                        class="details-button"
-                        onclick="openModal(
-                            'معسكر البرمجة',
-                            '👩‍💻',
-                            'برمجة وتقنية',
-                            'معسكر تدريبي عملي للتعرف على أساسيات البرمجة وتطوير التطبيقات وبناء مشاريع صغيرة.',
-                            '10 سبتمبر 2026',
-                            'صنعاء',
-                            'التسجيل مفتوح'
-                        )"
-                    >
-                        عرض التفاصيل
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- EVENT 6 -->
-
-        <article
-            class="card"
-            data-category="innovation"
-            data-title="مختبر الابتكار"
-        >
-
-            <div class="card-cover">
-                💡
-            </div>
-
-
-            <div class="card-content">
-
-                <div class="category">
-                    ابتكار وأفكار
-                </div>
-
-
-                <h2>
-                    مختبر الابتكار
-                </h2>
-
-
-                <p class="description">
-
-                    مساحة مفتوحة للعصف الذهني
-                    وتطوير الأفكار الجديدة.
-
-                </p>
-
-
-                <div class="details">
-
-                    <div class="detail">
-                        📅 18 سبتمبر 2026
-                    </div>
-
-                    <div class="detail">
-                        📍 صنعاء
-                    </div>
-
-                </div>
-
-
-                <div class="card-footer">
-
-                    <span class="price">
-                        التسجيل مفتوح
-                    </span>
-
-
-                    <button
-                        class="details-button"
-                        onclick="openModal(
-                            'مختبر الابتكار',
-                            '💡',
-                            'ابتكار وأفكار',
-                            'تجربة تفاعلية تهدف إلى توليد الأفكار الجديدة وتطويرها من خلال العمل الجماعي والعصف الذهني.',
-                            '18 سبتمبر 2026',
-                            'صنعاء',
-                            'التسجيل مفتوح'
-                        )"
-                    >
-                        عرض التفاصيل
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-    </div>
-
-
-    <!-- لا توجد نتائج -->
-
-    <div
-        class="empty"
-        id="emptyMessage"
-    >
-
-        <div class="empty-icon">
-            🔎
+    <nav>
+        <a href="{% url 'home' %}" class="logo">Event<span>Hub</span></a>
+        <ul>
+            <li><a href="{% url 'home' %}" class="active">الرئيسية</a></li>
+            <li><a href="{% url 'event_list' %}">الفعاليات</a></li>
+            <li><button class="btn-theme" onclick="toggleTheme()">☀️ الوضع</button></li>
+        </ul>
+    </nav>
+
+    <header class="hero-section">
+        <div class="badge-pill">
+            ✨ الوجهة الأولى لاكتشاف الأنشطة والملتقيات الاستثنائية
         </div>
+        <h1>ارتقِ بتجاربك واحضر <span>أرقى الفعاليات</span></h1>
+        <p>منصة متكاملة تجمع صناع التغيير، المطورين، ورواد الأعمال في مكان واحد. استكشف، تواصل، وسجل حضورك بلمسة واحدة.</p>
+        <div class="cta-buttons">
+            <a href="{% url 'event_list' %}" class="btn">استعرض الفعاليات الآن</a>
+            <a href="#loginSection" class="btn btn-outline">تسجيل الدخول</a>
+        </div>
+    </header>
 
-        <h3>
-            لم نجد فعالية بهذا الاسم
-        </h3>
+    <section class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3>فعاليات متنوعة ومحدثة</h3>
+            <p>تغطية شاملة لأحدث المؤتمرات، الورش التقنية، والمعارض الريادية بدقة عالية.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>تسجيل وحجز فوري</h3>
+            <p>آلية تسجيل سلسة وسريعة لحجز مقعدك وتأكيد حضورك دون أي تعقيد.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💎</div>
+            <h3>عروض وخصومات خاصة</h3>
+            <p>احصل على عروض حصرية وتخفيضات مميزة على تذاكر الملتقيات والقمم الكبرى.</p>
+        </div>
+    </section>
 
-        <p>
-            جربي البحث باسم مختلف أو اختاري
-            تصنيفًا آخر.
-        </p>
-
+    <div class="auth-wrapper" id="loginSection">
+        <div class="auth-container">
+            <h2>مرحباً بك مجدداً</h2>
+            <p class="auth-subtitle">سجل دخولك لمتابعة فعالياتك وحجوزاتك المفضلة</p>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">اسم المستخدم أو البريد الإلكتروني</label>
+                    <input type="text" id="username" name="username" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-submit">تسجيل الدخول</button>
+            </form>
+        </div>
     </div>
 
-</main>
-
-
-<!-- =========================
-     MODAL
-========================= -->
-
-<div
-    class="modal"
-    id="eventModal"
->
-
-    <div class="modal-box">
-
-
-        <div
-            class="modal-cover"
-            id="modalIcon"
-        >
-            🎓
+    <section class="showcase-section">
+        <div class="section-header">
+            <h2>أبرز المحطات والقمم الاستثنائية</h2>
+            <p>نخبة من الورش والملتقيات الأكثر طلباً المصممة خصيصاً لتطوير مسيرتك المهنية والتقنية</p>
         </div>
-
-
-        <div class="modal-content">
-
-
-            <div
-                class="modal-category"
-                id="modalCategory"
-            >
-                تعليم وتطوير
+        <div class="showcase-grid">
+            <div class="showcase-card">
+                <div class="showcase-top">
+                    <div class="showcase-icon">💻</div>
+                    <span class="showcase-tag">تقنية وبرمجة</span>
+                </div>
+                <h3>ملتقى التقنية والذكاء الاصطناعي</h3>
+                <p>قمة سنوية تجمع أبرز خبراء الويب والذكاء الاصطناعي لمناقشة أحدث النماذج والتقنيات المستقبلية.</p>
+                <div class="showcase-footer">
+                    <span>📅 قريباً في أغسطس</span>
+                    <span style="color: var(--primary); font-weight: 700;">مقاعد محدودة</span>
+                </div>
             </div>
 
-
-            <h2 id="modalTitle">
-                اسم الفعالية
-            </h2>
-
-
-            <p
-                class="modal-description"
-                id="modalDescription"
-            >
-                وصف الفعالية
-            </p>
-
-
-            <div class="modal-details">
-
-
-                <div class="modal-detail">
-
-                    📅
-
-                    <strong>
-                        التاريخ
-                    </strong>
-
-                    <br>
-
-                    <span id="modalDate">
-                        -
-                    </span>
-
+            <div class="showcase-card">
+                <div class="showcase-top">
+                    <div class="showcase-icon">🚀</div>
+                    <span class="showcase-tag">ابتكار ومشاريع</span>
                 </div>
-
-
-                <div class="modal-detail">
-
-                    📍
-
-                    <strong>
-                        الموقع
-                    </strong>
-
-                    <br>
-
-                    <span id="modalLocation">
-                        -
-                    </span>
-
+                <h3>معرض الابتكار والحلول الذكية</h3>
+                <p>منصة رقمية وواقعية فريدة تدمج المبتكرين الطموحين بكبرى صناديق الاستثمار لدعم المشاريع الناشئة.</p>
+                <div class="showcase-footer">
+                    <span>📅 القاعة الكبرى</span>
+                    <span style="color: var(--primary); font-weight: 700;">تسجيل مفتوح</span>
                 </div>
-
-
-                <div class="modal-detail">
-
-                    🎟️
-
-                    <strong>
-                        الحالة
-                    </strong>
-
-                    <br>
-
-                    <span id="modalPrice">
-                        -
-                    </span>
-
-                </div>
-
-
-                <div class="modal-detail">
-
-                    ✨
-
-                    <strong>
-                        EventHub
-                    </strong>
-
-                    <br>
-
-                    تجربة مميزة
-
-                </div>
-
-
             </div>
 
-
-            <div class="modal-actions">
-
-
-                <button
-                    class="register"
-                    onclick="registerEvent()"
-                >
-                    التسجيل في الفعالية
-                </button>
-
-
-                <button
-                    class="close-modal"
-                    onclick="closeModal()"
-                >
-                    إغلاق
-                </button>
-
-
+            <div class="showcase-card">
+                <div class="showcase-top">
+                    <div class="showcase-icon">💼</div>
+                    <span class="showcase-tag">أعمال وريادة</span>
+                </div>
+                <h3>قمة ريادة الأعمال الشابة</h3>
+                <p>جلسات إرشادية مكثفة ونقاشات استراتيجية مع قادة الشركات لتمكينك من قيادة سوق العمل بكفاءة.</p>
+                <div class="showcase-footer">
+                    <span>📅 برعاية المنصة</span>
+                    <span style="color: var(--primary); font-weight: 700;">شهادة معتمدة</span>
+                </div>
             </div>
-
-
         </div>
+    </section>
 
-    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Event<span>Hub</span></div>
+            <p class="developer-credit">تصميم وتطوير بكل إتقان بواسطة <span>المهندسة حسناء</span> ✨</p>
+            <p class="copyright-text">جميع الحقوق محفوظة &copy; 2026</p>
+        </div>
+    </footer>
 
-</div>
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-
-    © 2026
-
-    <strong>
-        EventHub
-    </strong>
-
-    — منصة اكتشاف الفعاليات
-
-
-    <span class="developer">
-        تصميم وتطوير المهندسة حسناء
-    </span>
-
-</footer>
-
-
-<script>
-
-
-    /* =========================
-       MODAL
-    ========================= */
-
-
-    function openModal(
-        title,
-        icon,
-        category,
-        description,
-        date,
-        location,
-        price
-    ) {
-
-
-        document.getElementById(
-            "modalTitle"
-        ).innerText = title;
-
-
-        document.getElementById(
-            "modalIcon"
-        ).innerText = icon;
-
-
-        document.getElementById(
-            "modalCategory"
-        ).innerText = category;
-
-
-        document.getElementById(
-            "modalDescription"
-        ).innerText = description;
-
-
-        document.getElementById(
-            "modalDate"
-        ).innerText = date;
-
-
-        document.getElementById(
-            "modalLocation"
-        ).innerText = location;
-
-
-        document.getElementById(
-            "modalPrice"
-        ).innerText = price;
-
-
-        document.getElementById(
-            "eventModal"
-        ).classList.add("active");
-
-
-        document.body.style.overflow =
-            "hidden";
-
-    }
-
-
-    function closeModal() {
-
-        document.getElementById(
-            "eventModal"
-        ).classList.remove("active");
-
-
-        document.body.style.overflow =
-            "";
-
-    }
-
-
-    /* إغلاق عند الضغط خارج النافذة */
-
-    document.getElementById(
-        "eventModal"
-    ).addEventListener(
-        "click",
-        function(event) {
-
-            if (
-                event.target === this
-            ) {
-
-                closeModal();
-
-            }
-
+    <script>
+        function toggleTheme() { 
+            document.body.classList.toggle('light-mode'); 
         }
-    );
-
-
-    /* إغلاق بزر ESC */
-
-    document.addEventListener(
-        "keydown",
-        function(event) {
-
-            if (
-                event.key === "Escape"
-            ) {
-
-                closeModal();
-
-            }
-
-        }
-    );
-
-
-    /* =========================
-       REGISTER
-    ========================= */
-
-
-    function registerEvent() {
-
-        alert(
-            "تم اختيار التسجيل في الفعالية.\n\nسيتم ربط التسجيل بقاعدة البيانات لاحقًا."
-        );
-
-    }
-
-
-    /* =========================
-       SEARCH + FILTER
-    ========================= */
-
-
-    const searchInput =
-        document.getElementById(
-            "searchInput"
-        );
-
-
-    const categoryFilter =
-        document.getElementById(
-            "categoryFilter"
-        );
-
-
-    const cards =
-        document.querySelectorAll(
-            ".card"
-        );
-
-
-    function filterEvents() {
-
-
-        const search =
-            searchInput.value
-            .toLowerCase()
-            .trim();
-
-
-        const category =
-            categoryFilter.value;
-
-
-        let visible = 0;
-
-
-        cards.forEach(
-            function(card) {
-
-
-                const title =
-                    card
-                    .dataset
-                    .title
-                    .toLowerCase();
-
-
-                const cardCategory =
-                    card.dataset.category;
-
-
-                const matchesSearch =
-                    title.includes(search);
-
-
-                const matchesCategory =
-                    category === "all" ||
-                    cardCategory === category;
-
-
-                if (
-                    matchesSearch &&
-                    matchesCategory
-                ) {
-
-                    card.style.display =
-                        "block";
-
-                    visible++;
-
-                } else {
-
-                    card.style.display =
-                        "none";
-
-                }
-
-            }
-        );
-
-
-        document.getElementById(
-            "eventsCount"
-        ).innerText = visible;
-
-
-        if (visible === 0) {
-
-            document.getElementById(
-                "emptyMessage"
-            ).style.display = "block";
-
-        } else {
-
-            document.getElementById(
-                "emptyMessage"
-            ).style.display = "none";
-
-        }
-
-    }
-
-
-    searchInput.addEventListener(
-        "input",
-        filterEvents
-    );
-
-
-    categoryFilter.addEventListener(
-        "change",
-        filterEvents
-    );
-
-
-</script>
-
-
+    </script>
 </body>
-
 </html>
