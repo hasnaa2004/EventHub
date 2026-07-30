@@ -5,7 +5,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventHub | استعراض الفعاليات</title>
+    <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>قائمة الفعاليات</title>
     <style>
+        body { font-family: Tahoma, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; direction: rtl; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .filter-form { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-form input, .filter-form select, .filter-form button { padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; }
+        .filter-form input { flex: 1; }
+        .filter-form button { background: #007bff; color: white; border: none; cursor: pointer; }
+        .filter-form button:hover { background: #0056b3; }
+        .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
+        .event-card { background: #fff; border: 1px solid #e0e0e0; padding: 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .event-card h3 { margin-top: 0; color: #333; }
+        .results-counter { margin-bottom: 15px; color: #555; }
+        .no-results { text-align: center; color: #888; padding: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>قائمة الفعاليات</h1>
+
+        <!-- نموذج البحث والفلترة -->
+        <form method="GET" action="" class="filter-form">
+            <input type="text" name="q" value="{{ query }}" placeholder="ابحث عن فعالية..." id="searchInput">
+
+            <select name="category" id="categoryFilter">
+                <option value="">جميع التصنيفات</option>
+                <option value="tech">تقنية</option>
+                <option value="sport">رياضة</option>
+                <option value="art">فنون</option>
+            </select>
+
+            <select name="sort" onchange="this.form.submit()">
+                <option value="latest">الأحدث</option>
+                <option value="az">أبجدي (أ - ي)</option>
+                <option value="za">أبجدي (ي - أ)</option>
+            </select>
+
+            <button type="submit">بحث وتصفية</button>
+        </form>
+
+        <!-- عداد النتائج -->
+        <p class="results-counter">عدد النتائج الظاهرة: <strong>{{ total_count }}</strong></p>
+
+        <!-- عرض الفعاليات أو رسالة عدم الوجود -->
+        {% if has_results %}
+            <div class="events-grid" id="eventsGrid">
+                {% for event in events %}
+                    <div class="event-card" data-title="{{ event.title }}" data-category="{{ event.category }}">
+                        <h3>{{ event.title }}</h3>
+                        <p>{{ event.description }}</p>
+                        <span class="event-category">التصنيف: {{ event.category }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-results">
+                <p>عذراً، لا توجد فعاليات مطابقة لبحثك.</p>
+            </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
+    <style>
+
         :root {
             --primary: #6366f1;
             --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);

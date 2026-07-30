@@ -1,60 +1,52 @@
 from django.shortcuts import render
+from .models import Event
 
-
-def home(request):
-    # مدخلات نصية تحتمل وجود مسافات أو حروف صغيرة
-    raw_course = "software engineering"
-    raw_developer = "   المهندسة حسناء   "
-    raw_semester = "second semester"
+def events_list_view(request):
     
-    # تطبيق دوال النصوص والحسابات خلف الكواليس
-    context = {
-        "course_name": raw_course.title(),           # تحويل إلى: Software Engineering
-        "developer": raw_developer.strip(),          # إزالة المسافات الزائدة من الأطراف
-        "university": "Yemen University".upper(),     # تحويل لحروف كبيرة: YEMEN UNIVERSITY
-        "semester": raw_semester.capitalize(),       # تكبير أول حرف فقط
-        "year": 2026,
-        "visitors": 150 + 50,                        # إمكانية إجراء حسابات مباشرة
-    }
+    raw_search = request.GET.get('q', '')
+    selected_category = request.GET.get('category', '')
+    sort_criteria = request.GET.get('sort', 'title')
 
-    return render(request, "events/home.html", context)
+   
+    cleaned_query = raw_search.strip()              
+    lower_query = cleaned_query.lower()           
+    replaced_query = lower_query.replace('  ', ' ')
+    upper_query = replaced_query.upper()            
+    title_query = replaced_query.title()            
+   
+    events = Event.objects.all()
 
+    
+    if lower_query:
+        events = events.filter(title__icontains=lower_query)
 
-def event_list(request):
-    # قائمة البيانات الخام
-    raw_events = [
-        {
-            "name": "  ملتقى التقنية والذكاء الاصطناعي  ",
-            "category": "technology",
-            "location": "صنعاء",
-            "price": "free"
-        },
-        {
-            "name": "ورشة تطوير المهارات البرمجية",
-            "category": "education",
-            "location": "عدن",
-            "price": "1000 ريال"
-        },
-        {
-            "name": "معرض المشاريع الهندسية",
-            "category": "innovation",
-            "location": "تعز",
-            "price": "free"
-        }
-    ]
+    if selected_category:
+        events = events.filter(category=selected_category)
 
-    # معالجة كل عنصر داخل القائمة بشكل مستقل
-    cleaned_events = []
-    for item in raw_events:
-        cleaned_events.append({
-            "name": item["name"].strip(),                                   # تنظيف المسافات
-            "category": item["category"].upper(),                           # تحويل النص لحروف كبيرة
-            "location": item["location"],
-            "price": "مجاني" if item["price"].lower() == "free" else item["price"] # تحويل كلمة free إلى مجاني
-        })
+   
+    events = events.exclude(status='cancelled')
+
+   
+    if sort_criteria == 'az':
+        events = events.order_by('title')
+    elif sort_criteria == 'za':
+        events = events.order_by('-title')
+    else:
+        events = events.order_by('-date')
+
+    events = events.distinct()
+
+   
+    has_results = events.exists()
+
+   
+    total_results_count = events.count()
 
     context = {
-        "events": cleaned_events
+        'events': events,
+        'has_results': has_results,
+        'total_count': total_results_count,
+        'query': lower_query,
     }
 
-    return render(request, "events/event_list.html", context)
+    return render(request, 'events/events_list.html', context)
